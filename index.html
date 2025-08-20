@@ -6,27 +6,25 @@
   <title>Conecotur XII — Guia de Serviços UEPG</title>
   <meta name="description" content="Mapas de serviços e estabelecimentos perto da UEPG, reunidos em um só lugar para visitantes do evento." />
   <meta name="theme-color" content="#2f6f4f" />
-  <!-- Tailwind via CDN -->
+
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* ===== Paleta (ajuste se quiser) ===== */
+
     :root{
-      --green-900:#1d3e30;   /* cabeçalho */
+      --green-900:#1d3e30;  
       --green-800:#234d3b;
-      --green-600:#2f6f4f;   /* botão ativo / card ativo */
-      --green-200:#dfeee7;   /* fundo de cards "apagados" */
-      --green-100:#e9f3ee;   /* fundo da página */
-      --brown-500:#a06c3b;   /* acentos */
-      --ink:#0f172a;         /* texto principal */
-      --muted:#486657;       /* texto secundário verdinho */
-      --line:#d7e6dd;        /* bordas suaves */
+      --green-600:#2f6f4f;   
+      --green-200:#dfeee7;   
+      --green-100:#e9f3ee;  
+      --brown-500:#a06c3b;   
+      --ink:#0f172a;        
+      --muted:#486657;      
+      --line:#d7e6dd;        
     }
 
-    /* Fundo geral verdinho (troque por #fff se quiser fundo branco) */
     body{ background: var(--green-100); color: var(--ink); }
 
-    /* ===== Cabeçalho (sobrepõe classes do Tailwind) ===== */
     header{
       background: linear-gradient(180deg, var(--green-800), var(--green-900)) !important;
       border-bottom: 0 !important;
@@ -41,7 +39,6 @@
     header .btn:hover{ background: rgba(255,255,255,.16); }
     header .btn.btn-active{ background:#fff; color: var(--green-900); border-color:#fff; }
 
-    /* ===== Botões genéricos ===== */
     .btn{
       padding: .55rem .9rem; border-radius: 1rem;
       box-shadow: 0 1px 2px rgba(0,0,0,.05);
@@ -52,12 +49,11 @@
     .btn:active{ transform: scale(.99); }
     .btn-active{ background: var(--green-600); color:#fff; border-color: var(--green-600); }
 
-    /* ===== HERO (imagem + degradê) ===== */
     .hero{ position: relative; overflow: hidden; }
     .hero-bg{
       background-image: linear-gradient(to bottom, rgba(29,62,48,.85), rgba(29,62,48,.55) 45%, rgba(29,62,48,.30) 70%, rgba(29,62,48,.25)), url('assets/img/fachada.jpg');
       background-size: cover; background-position: center;
-      width: 100%; height: 46vh; /* mobile */
+      width: 100%; height: 46vh; 
     }
     @media (min-width: 640px){ .hero-bg{ height: 56vh; } }
     .hero-inner{ position: absolute; inset: 0; display:flex; flex-direction:column; justify-content:center; padding: 1rem; }
@@ -67,23 +63,19 @@
     .hero-cta{ padding:.65rem .95rem; border-radius:999px; border:1px solid rgba(255,255,255,.7); color:#103224; background:#fff; font-weight:600; }
     .hero-ghost{ padding:.65rem .95rem; border-radius:999px; border:1px solid rgba(255,255,255,.6); color:#F6FFF8; background:transparent; font-weight:600; }
 
-    /* ===== Lista (cards) ===== */
     .card{ display:flex; align-items:center; gap:.75rem; padding:.85rem 1rem; border:1px solid var(--line); border-radius: 1rem; background: var(--green-200); }
     .card-title{ font-weight:600; font-size:1rem; line-height:1.2; color:#13251d; }
     .card-sub{ font-size:.8rem; color: var(--muted); }
     .card.active{ background: var(--green-600); border-color: var(--green-600); color:#fff; box-shadow:0 0 0 3px rgba(47,111,79,.18); }
     .card.active .card-title, .card.active .card-sub{ color:#fff; }
 
-    /* ===== Mapa ===== */
     #mapWrap{ background:#fff; }
     @media (max-width:640px){ #mapWrap{ height:65vh; aspect-ratio:auto; } }
 
-    /* Acentos dos blocos de texto (bege + marrom) */
     .accent-title{ color: var(--green-900); }
     .accent-chip{ background: #efe5cf; color:#4b3a22; border:1px solid #e4d6b9; border-radius:.7rem; padding:.25rem .6rem; font-size:.75rem; display:inline-block; }
     .accent-dot{ width:.6rem; height:.6rem; border-radius:999px; background: var(--brown-500); display:inline-block; margin-right:.35rem; }
 
-    /* Botão grande para Atrativos Turísticos */
     .card-attractions-large{
       padding: 1rem 1.1rem;
       background: linear-gradient(135deg, #efe5cf 0%, #e9f3ee 100%);
@@ -92,45 +84,36 @@
     .card-attractions-large .card-title{ font-size:1.1rem; }
     .card-attractions-large .card-sub{ font-size:.85rem; }
 
-    /* ===== Compactação para CELULAR ===== */
     @media (max-width: 640px){
-      /* Cabeçalho */
-      header h1{ font-size: 1rem; }          /* antes: ~1.125rem */
+
+      header h1{ font-size: 1rem; }         
       header p{ font-size: .78rem; }
 
-      /* Hero (imagem + textos) */
-      .hero-bg{ height: 44vh; }              /* antes: 46vh */
+      .hero-bg{ height: 44vh; }            
       .hero-title{ font-size: 1.45rem; }
       .hero-sub{ font-size: .9rem; }
       .hero-actions .hero-cta,
       .hero-actions .hero-ghost{ padding: .55rem .85rem; font-size: .9rem; }
 
-      /* Lista de botões (cards) */
-      .card{ padding: .75rem .9rem; }        /* antes: .85rem 1rem */
+      .card{ padding: .75rem .9rem; }       
       .card .text-xl{ font-size: 1.15rem; }
-      .card-title{ font-size: .95rem; }      /* antes: 1rem */
-      .card-sub{ font-size: .78rem; }        /* antes: .8rem */
+      .card-title{ font-size: .95rem; }    
+      .card-sub{ font-size: .78rem; }      
 
-      /* Botões genéricos */
       .btn{ padding: .45rem .75rem; font-size: .85rem; }
 
-      /* Títulos e chips */
       .accent-title{ font-size: 1rem; }
       .accent-chip{ font-size: .72rem; padding: .2rem .5rem; }
 
-      /* Texto dos blocos de introdução/avisos */
-      #intro p, #intro li { font-size: .875rem; }  /* = text-sm */
+      #intro p, #intro li { font-size: .875rem; } 
 
-      /* Mapa um pouco mais baixo */
-      #mapWrap{ height: 58vh; }              /* antes: 65vh */
+      #mapWrap{ height: 58vh; }           
     }
   </style>
 </head>
 <body class="text-slate-800">
-  <!-- Barra superior -->
   <header class="sticky z-30 top-0 bg-white/0 backdrop-blur border-b border-slate-200/0">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
-      <!-- Logo opcional -->
       <img id="logo" src="" alt="Logo da Universidade" class="w-10 h-10 object-contain hidden" />
       <div>
         <h1 class="text-lg md:text-xl font-semibold leading-tight">Guia Conecotur XII</h1>
@@ -143,7 +126,6 @@
     </div>
   </header>
 
-  <!-- HERO com imagem da fachada + degradê verde -->
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-inner max-w-6xl mx-auto">
@@ -156,12 +138,11 @@
     </div>
   </section>
 
-  <!-- Intro em caixinha -->
   <section id="intro" class="bg-white/80 border-b border-slate-200">
     <div class="max-w-6xl mx-auto px-4 py-4">
       <div class="p-4 rounded-xl border bg-white">
         <div class="accent-chip mb-2">Sobre este guia e como usar</div>
-        <p class="text-sm text-slate-700 mb-2">Este guia reúne mapas temáticos produzidos pelos <strong>alunos do 2º ano do Curso de Turismo da UEPG</strong> para orientar visitantes e moradores durante o <strong>Conecotur XII</strong>. É rápido e pensado para facilitar sua visita:</p>
+        <p class="text-sm text-slate-700 mb-2">Este guia reúne mapas temáticos produzidos pelos <strong>alunos Curso de Turismo da UEPG</strong> para orientar visitantes e moradores durante o <strong>Conecotur XII</strong>. É rápido e pensado para facilitar sua visita, mostrando pontos e serviços estratégicos: </p>
         <ul class="text-sm text-slate-700 list-disc pl-5 space-y-1">
           <li><strong>Escolha um tema</strong> (Farmácias, Restaurantes, Hotéis, etc.) tocando em um dos botões abaixo.</li>
           <li>O <strong>mapa abre logo abaixo</strong> com os pontos marcados; toque nos ícones para ver detalhes.</li>
@@ -172,7 +153,6 @@
     </div>
   </section>
 
-  <!-- Atrativos Turísticos (botão destacado) -->
   <section id="atrativos" class="bg-slate-50 border-b border-slate-200">
     <div class="max-w-6xl mx-auto px-4 py-3">
       <h3 class="accent-title text-lg font-semibold mb-2">Atrativos turísticos</h3>
@@ -186,7 +166,6 @@
     </div>
   </section>
 
-  <!-- Lista de mapas -->
   <section id="lista" class="bg-slate-50 border-b border-slate-200">
     <div class="max-w-6xl mx-auto px-4 py-3">
       <h3 class="accent-title text-lg font-semibold mb-2">Serviços e pontos úteis</h3>
@@ -195,7 +174,6 @@
     </div>
   </section>
 
-  <!-- Área principal: mapa -->
   <main class="max-w-6xl mx-auto px-0 md:px-4 py-4">
     <div class="rounded-2xl overflow-hidden shadow ring-1 ring-slate-200 bg-white">
       <div class="w-full" style="aspect-ratio: 3 / 4;" id="mapWrap">
@@ -210,7 +188,6 @@
       </div>
     </div>
 
-    <!-- Seções de conteúdo (texto) -->
     <section class="mt-4 grid gap-3">
       <!-- Sobre o evento -->
       <div class="p-4 rounded-xl border bg-white">
@@ -221,7 +198,6 @@
         <p class="text-sm text-slate-700 mt-2">Agradecemos sua participação neste evento tão importante. Caso necessite de mais informações sobre o evento, consulte o site: <a class="underline" target="_blank" rel="noopener" href="https://conecotur2025.webnode.page/?fbclid=PAQ0xDSwLsc0pleHRuA2FlbQIxMQABpw-ZmN-JtN9gGtQUWfPrTLlXPar-YDDcPjW94uzQZjZEWmOSYZj-qvesmTu9_aem_LAB5OBVg6bRPD6Sz2PV4iA">conecotur2025.webnode.page</a>.</p>
       </div>
 
-      <!-- Avisos (full width) -->
       <div class="p-4 rounded-xl border bg-white">
         <div class="accent-chip mb-2">Avisos</div>
         <ul class="text-sm text-slate-700 space-y-1">
@@ -233,11 +209,11 @@
   </main>
 
   <footer class="mt-8 py-6 border-t text-center text-xs text-slate-600">
-    © <span id="year"></span> Universidade • Projeto de Turismo — Evento.
+    © <span id="year"></span> Universidade Estadual de Ponta Grossa • Todos os direitos reservados.
   </footer>
 
   <script>
-    // ===== CONFIGURAÇÃO (links reais já inseridos) =====
+
     const mapConfigs = [
       { icon:'💊', name: "Farmácias", embedUrl: "https://www.google.com/maps/d/embed?mid=12wmMmpQ7Jfo2UQl5E2JVq0GLx97Cfug&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?mid=12wmMmpQ7Jfo2UQl5E2JVq0GLx97Cfug&ll=-25.08767151437781%2C-50.14578565000001&z=12" },
       { icon:'👮', name: "Polícia", embedUrl: "https://www.google.com/maps/d/embed?mid=1rs3hDgDbbA2FnJVF2ChKA_Po4wrhpQc&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?mid=1rs3hDgDbbA2FnJVF2ChKA_Po4wrhpQc&ll=-25.09652229228713%2C-50.16878735&z=13" },
@@ -288,7 +264,6 @@
 
       location.hash = `#map=${encodeURIComponent(cfg.name)}`;
 
-      // rolar suavemente até o mapa apenas nas interações do usuário
       if (shouldScroll) {
         const wrap = document.getElementById('mapWrap');
         if (wrap && 'scrollIntoView' in wrap) {
@@ -316,7 +291,7 @@
     renderList();
     const hashMap = decodeURIComponent((location.hash.split('map=')[1] || '').replace(/\+/g,' '));
     const startIndex = Math.max(0, mapConfigs.findIndex(c => c.name.toLowerCase() === hashMap.toLowerCase()));
-    setActive(startIndex === -1 ? 0 : startIndex, false); // primeira carga: não rola
+    setActive(startIndex === -1 ? 0 : startIndex, false);
 
     recenterBtn.addEventListener('click', () => {
       const current = mapConfigs.find(c => c.name === currentLabel.textContent);
@@ -338,7 +313,6 @@
       } catch (e) { console.warn(e); }
     });
 
-    // Botão grande de Atrativos Turísticos (rola até o mapa)
     const attrBtnLarge = document.getElementById('attrBtnLarge');
     if (attrBtnLarge) {
       attrBtnLarge.addEventListener('click', () => {
