@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conecotur XII — Guia de Serviços UEPG</title>
+  <meta name="description" content="Mapas de serviços e estabelecimentos perto da UEPG, reunidos em um só lugar para visitantes do evento." />
+  <meta name="theme-color" content="#2f6f4f" />
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* ===== Paleta (ajuste se quiser) ===== */
+    :root{
+      --green-900:#1d3e30;   /* cabeçalho */
+      --green-800:#234d3b;
+      --green-600:#2f6f4f;   /* botão ativo / card ativo */
+      --green-200:#dfeee7;   /* fundo de cards "apagados" */
+      --green-100:#e9f3ee;   /* fundo da página */
+      --brown-500:#a06c3b;   /* acentos */
+      --ink:#0f172a;         /* texto principal */
+      --muted:#486657;       /* texto secundário verdinho */
+      --line:#d7e6dd;        /* bordas suaves */
+    }
+
+    /* Fundo geral verdinho (troque por #fff se quiser fundo branco) */
+    body{ background: var(--green-100); color: var(--ink); }
+
+    /* ===== Cabeçalho (sobrepõe classes do Tailwind) ===== */
+    header{
+      background: linear-gradient(180deg, var(--green-800), var(--green-900)) !important;
+      border-bottom: 0 !important;
+      color: #f0fdf4;
+    }
+    header h1, header p{ color:#ecfdf5 !important; }
+    header .btn{
+      background: rgba(255,255,255,.08);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.25);
+    }
+    header .btn:hover{ background: rgba(255,255,255,.16); }
+    header .btn.btn-active{ background:#fff; color: var(--green-900); border-color:#fff; }
+
+    /* ===== Botões genéricos ===== */
+    .btn{
+      padding: .55rem .9rem; border-radius: 1rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      background:#fff; border:1px solid var(--line);
+      transition: transform .05s ease, background .2s ease;
+    }
+    .btn:hover{ background:#f8fafc; }
+    .btn:active{ transform: scale(.99); }
+    .btn-active{ background: var(--green-600); color:#fff; border-color: var(--green-600); }
+
+    /* ===== HERO (imagem + degradê) ===== */
+    .hero{ position: relative; overflow: hidden; }
+    .hero-bg{
+      background-image: linear-gradient(to bottom, rgba(29,62,48,.85), rgba(29,62,48,.55) 45%, rgba(29,62,48,.30) 70%, rgba(29,62,48,.25)), url('assets/img/fachada.jpg');
+      background-size: cover; background-position: center;
+      width: 100%; height: 46vh; /* mobile */
+    }
+    @media (min-width: 640px){ .hero-bg{ height: 56vh; } }
+    .hero-inner{ position: absolute; inset: 0; display:flex; flex-direction:column; justify-content:center; padding: 1rem; }
+    .hero-title{ color:#F5FAF7; font-weight:800; line-height:1.15; font-size: clamp(1.8rem, 4.5vw, 2.6rem); letter-spacing:.2px; text-shadow: 0 2px 12px rgba(0,0,0,.35); }
+    .hero-sub{ color:#EAF4EE; max-width: 40ch; margin-top:.4rem; font-size: .95rem; text-shadow: 0 1px 8px rgba(0,0,0,.35); }
+    .hero-actions{ margin-top: .9rem; display:flex; gap:.6rem; flex-wrap: wrap; }
+    .hero-cta{ padding:.65rem .95rem; border-radius:999px; border:1px solid rgba(255,255,255,.7); color:#103224; background:#fff; font-weight:600; }
+    .hero-ghost{ padding:.65rem .95rem; border-radius:999px; border:1px solid rgba(255,255,255,.6); color:#F6FFF8; background:transparent; font-weight:600; }
+
+    /* ===== Lista (cards) ===== */
+    .card{ display:flex; align-items:center; gap:.75rem; padding:.85rem 1rem; border:1px solid var(--line); border-radius: 1rem; background: var(--green-200); }
+    .card-title{ font-weight:600; font-size:1rem; line-height:1.2; color:#13251d; }
+    .card-sub{ font-size:.8rem; color: var(--muted); }
+    .card.active{ background: var(--green-600); border-color: var(--green-600); color:#fff; box-shadow:0 0 0 3px rgba(47,111,79,.18); }
+    .card.active .card-title, .card.active .card-sub{ color:#fff; }
+
+    /* ===== Mapa ===== */
+    #mapWrap{ background:#fff; }
+    @media (max-width:640px){ #mapWrap{ height:65vh; aspect-ratio:auto; } }
+
+    /* Acentos dos blocos de texto (bege + marrom) */
+    .accent-title{ color: var(--green-900); }
+    .accent-chip{ background: #efe5cf; color:#4b3a22; border:1px solid #e4d6b9; border-radius:.7rem; padding:.25rem .6rem; font-size:.75rem; display:inline-block; }
+    .accent-dot{ width:.6rem; height:.6rem; border-radius:999px; background: var(--brown-500); display:inline-block; margin-right:.35rem; }
+
+    /* Botão grande para Atrativos Turísticos */
+    .card-attractions-large{
+      padding: 1rem 1.1rem;
+      background: linear-gradient(135deg, #efe5cf 0%, #e9f3ee 100%);
+      border-color: #e4d6b9;
+    }
+    .card-attractions-large .card-title{ font-size:1.1rem; }
+    .card-attractions-large .card-sub{ font-size:.85rem; }
+
+    /* ===== Compactação para CELULAR ===== */
+    @media (max-width: 640px){
+      /* Cabeçalho */
+      header h1{ font-size: 1rem; }          /* antes: ~1.125rem */
+      header p{ font-size: .78rem; }
+
+      /* Hero (imagem + textos) */
+      .hero-bg{ height: 44vh; }              /* antes: 46vh */
+      .hero-title{ font-size: 1.45rem; }
+      .hero-sub{ font-size: .9rem; }
+      .hero-actions .hero-cta,
+      .hero-actions .hero-ghost{ padding: .55rem .85rem; font-size: .9rem; }
+
+      /* Lista de botões (cards) */
+      .card{ padding: .75rem .9rem; }        /* antes: .85rem 1rem */
+      .card .text-xl{ font-size: 1.15rem; }
+      .card-title{ font-size: .95rem; }      /* antes: 1rem */
+      .card-sub{ font-size: .78rem; }        /* antes: .8rem */
+
+      /* Botões genéricos */
+      .btn{ padding: .45rem .75rem; font-size: .85rem; }
+
+      /* Títulos e chips */
+      .accent-title{ font-size: 1rem; }
+      .accent-chip{ font-size: .72rem; padding: .2rem .5rem; }
+
+      /* Texto dos blocos de introdução/avisos */
+      #intro p, #intro li { font-size: .875rem; }  /* = text-sm */
+
+      /* Mapa um pouco mais baixo */
+      #mapWrap{ height: 58vh; }              /* antes: 65vh */
+    }
+  </style>
+</head>
+<body class="text-slate-800">
+  <!-- Barra superior -->
+  <header class="sticky z-30 top-0 bg-white/0 backdrop-blur border-b border-slate-200/0">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+      <!-- Logo opcional -->
+      <img id="logo" src="" alt="Logo da Universidade" class="w-10 h-10 object-contain hidden" />
+      <div>
+        <h1 class="text-lg md:text-xl font-semibold leading-tight">Guia Conecotur XII</h1>
+        <p class="text-xs md:text-sm opacity-90">Estabelecimentos nas imediações da Universidade Estadual de Ponta Grossa.</p>
+      </div>
+      <div class="ml-auto flex items-center gap-2">
+        <a id="openExternal" href="#" target="_blank" rel="noopener" class="btn text-sm">Abrir no Google Maps</a>
+        <button id="shareBtn" class="btn text-sm">Compartilhar</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO com imagem da fachada + degradê verde -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-inner max-w-6xl mx-auto">
+      <h2 class="hero-title">Bem-vindo(a) ao Guia Conecotur XII</h2>
+      <p class="hero-sub">Encontre serviços e pontos úteis ao redor da Universidade Estadual de Ponta Grossa, além de atrativos turisticos da cidade.</p>
+      <div class="hero-actions">
+        <a href="#lista" class="hero-cta">Ver mapas</a>
+        <a href="#mapWrap" class="hero-ghost">Ir para o mapa</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro em caixinha -->
+  <section id="intro" class="bg-white/80 border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 py-4">
+      <div class="p-4 rounded-xl border bg-white">
+        <div class="accent-chip mb-2">Sobre este guia e como usar</div>
+        <p class="text-sm text-slate-700 mb-2">Este guia reúne mapas temáticos produzidos pelos <strong>alunos do 2º ano do Curso de Turismo da UEPG</strong> para orientar visitantes e moradores durante o <strong>Conecotur XII</strong>. É rápido e pensado para facilitar sua visita:</p>
+        <ul class="text-sm text-slate-700 list-disc pl-5 space-y-1">
+          <li><strong>Escolha um tema</strong> (Farmácias, Restaurantes, Hotéis, etc.) tocando em um dos botões abaixo.</li>
+          <li>O <strong>mapa abre logo abaixo</strong> com os pontos marcados; toque nos ícones para ver detalhes.</li>
+          <li>Use <strong>“Abrir no Google Maps”</strong> para rotas e navegação no app do seu telefone.</li>
+          <li>Se o mapa não abrir, toque em <strong>Recarregar mapa</strong>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Atrativos Turísticos (botão destacado) -->
+  <section id="atrativos" class="bg-slate-50 border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 py-3">
+      <h3 class="accent-title text-lg font-semibold mb-2">Atrativos turísticos</h3>
+      <button id="attrBtnLarge" class="card card-attractions-large w-full text-left">
+        <div class="text-2xl">🧭</div>
+        <div class="flex-1">
+          <div class="card-title">Ver mapa de atrativos turísticos</div>
+          <div class="card-sub">Parques, museus, pontos de interesse e mais</div>
+        </div>
+      </button>
+    </div>
+  </section>
+
+  <!-- Lista de mapas -->
+  <section id="lista" class="bg-slate-50 border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 py-3">
+      <h3 class="accent-title text-lg font-semibold mb-2">Serviços e pontos úteis</h3>
+      <div class="text-sm text-slate-700 mb-2">Toque em um item para abrir o mapa abaixo.</div>
+      <div id="mapList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2"></div>
+    </div>
+  </section>
+
+  <!-- Área principal: mapa -->
+  <main class="max-w-6xl mx-auto px-0 md:px-4 py-4">
+    <div class="rounded-2xl overflow-hidden shadow ring-1 ring-slate-200 bg-white">
+      <div class="w-full" style="aspect-ratio: 3 / 4;" id="mapWrap">
+        <iframe id="mapFrame" title="Mapa selecionado" src="about:blank" class="w-full h-full" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="flex flex-wrap items-center justify-between gap-3 p-3 border-t bg-slate-50">
+        <div class="text-sm text-slate-600">Mapa: <span id="currentLabel" class="font-medium">—</span></div>
+        <div class="flex items-center gap-2">
+          <button id="recenterBtn" class="btn text-sm">Recarregar mapa</button>
+          <a id="openExternalBottom" href="#" target="_blank" rel="noopener" class="btn btn-active text-sm">Abrir no Google Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seções de conteúdo (texto) -->
+    <section class="mt-4 grid gap-3">
+      <!-- Sobre o evento -->
+      <div class="p-4 rounded-xl border bg-white">
+        <div class="accent-chip mb-2">Sobre o evento</div>
+        <p class="text-sm text-slate-700"><strong>XIII CONECOTUR</strong> — Congresso Nacional de Ecoturismo.<br>
+        <strong>IX ECOUC</strong> — Encontro Interdisciplinar de Ecoturismo em Unidades de Conservação.</p>
+        <p class="text-sm text-slate-700 mt-2">Neste ano, a Sociedade Brasileira de Ecoturismo, em parceria com a Universidade Estadual de Ponta Grossa (UEPG) e o Grupo Universitário de Pesquisas Espeleológicas (GUPE), organiza esta edição com o principal objetivo de fomentar o debate e a troca de conhecimentos sobre o ecoturismo no Brasil, promovendo práticas sustentáveis, inovação e integração entre diferentes atores do setor.</p>
+        <p class="text-sm text-slate-700 mt-2">Agradecemos sua participação neste evento tão importante. Caso necessite de mais informações sobre o evento, consulte o site: <a class="underline" target="_blank" rel="noopener" href="https://conecotur2025.webnode.page/?fbclid=PAQ0xDSwLsc0pleHRuA2FlbQIxMQABpw-ZmN-JtN9gGtQUWfPrTLlXPar-YDDcPjW94uzQZjZEWmOSYZj-qvesmTu9_aem_LAB5OBVg6bRPD6Sz2PV4iA">conecotur2025.webnode.page</a>.</p>
+      </div>
+
+      <!-- Avisos (full width) -->
+      <div class="p-4 rounded-xl border bg-white">
+        <div class="accent-chip mb-2">Avisos</div>
+        <ul class="text-sm text-slate-700 space-y-1">
+          <li>Horários e preços podem mudar — confira no Google Maps.</li>
+          <li>Emergência: 190 (Polícia), 193 (Bombeiros), 192 (SAMU).</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mt-8 py-6 border-t text-center text-xs text-slate-600">
+    © <span id="year"></span> Universidade • Projeto de Turismo — Evento.
+  </footer>
+
+  <script>
+    // ===== CONFIGURAÇÃO (links reais já inseridos) =====
+    const mapConfigs = [
+      { icon:'💊', name: "Farmácias", embedUrl: "https://www.google.com/maps/d/embed?mid=12wmMmpQ7Jfo2UQl5E2JVq0GLx97Cfug&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?mid=12wmMmpQ7Jfo2UQl5E2JVq0GLx97Cfug&ll=-25.08767151437781%2C-50.14578565000001&z=12" },
+      { icon:'👮', name: "Polícia", embedUrl: "https://www.google.com/maps/d/embed?mid=1rs3hDgDbbA2FnJVF2ChKA_Po4wrhpQc&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?mid=1rs3hDgDbbA2FnJVF2ChKA_Po4wrhpQc&ll=-25.09652229228713%2C-50.16878735&z=13" },
+      { icon:'🏋️', name: "Academias", embedUrl: "https://www.google.com/maps/d/embed?mid=1e0fbEyLwvv6ySG9ajC4cHk201c9_nvs&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?mid=1e0fbEyLwvv6ySG9ajC4cHk201c9_nvs&ll=-25.085661047600063%2C-50.16108910000001&z=13" },
+      { icon:'🏥', name: "Hospitais", embedUrl: "https://www.google.com/maps/d/embed?mid=1IUug21_ubLMz0M95W_zmFLq7SRAqEcU&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?mid=1IUug21_ubLMz0M95W_zmFLq7SRAqEcU&ll=-25.095518799737885%2C-50.139012749999985&z=11" },
+      { icon:'🏧', name: "Bancos 24h", embedUrl: "https://www.google.com/maps/d/embed?mid=12Wx7M2YXTneGFxR-hmsCyfgVCjEblIM&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?mid=12Wx7M2YXTneGFxR-hmsCyfgVCjEblIM&ll=-25.093820277430495%2C-50.160173449999995&z=11" },
+      { icon:'🛠️', name: "Oficinas de veículo", embedUrl: "https://www.google.com/maps/d/embed?mid=1QY2HG7LHxMfkK65vFb9QQO0c0UdNo58&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?usp=sharing&mid=1QY2HG7LHxMfkK65vFb9QQO0c0UdNo58" },
+      { icon:'⛽', name: "Postos de gasolina", embedUrl: "https://www.google.com/maps/d/embed?mid=1d_vn4PPOASHZGTrZLTX3SBtvytzBnEA&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?mid=1d_vn4PPOASHZGTrZLTX3SBtvytzBnEA&ll=-25.091101543666912%2C-50.15637860000001&z=11" },
+      { icon:'🛍️', name: "Shoppings", embedUrl: "https://www.google.com/maps/d/embed?mid=1bwv1K89PxE-feC9w1V30yNVNKzP6DpE&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?mid=1bwv1K89PxE-feC9w1V30yNVNKzP6DpE&ll=-25.088021561040957%2C-50.16777152065428&z=13" },
+      { icon:'🛒', name: "Supermercados", embedUrl: "https://www.google.com/maps/d/embed?mid=1wWC-xxYvOAV3gomkwQjHhQUoGdkPELk&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?mid=1wWC-xxYvOAV3gomkwQjHhQUoGdkPELk&ll=-25.088046031508647%2C-50.16993649703639&z=14" },
+      { icon:'🏨', name: "Hotéis", embedUrl: "https://www.google.com/maps/d/embed?mid=1KnkuC3mKGFpAbm7MFVLk-QdFWUWTkr8&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?mid=1KnkuC3mKGFpAbm7MFVLk-QdFWUWTkr8&ll=-25.10811594079359%2C-50.147749700000006&z=12" },
+      { icon:'🅿️', name: "Estacionamentos", embedUrl: "https://www.google.com/maps/d/embed?mid=1q7k6L9EsbmC8UjtIg7tS_PLcuFFIuyM&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?mid=1q7k6L9EsbmC8UjtIg7tS_PLcuFFIuyM&ll=-25.09937839999999%2C-50.1582927&z=15" },
+      { icon:'🍽️', name: "Restaurantes", embedUrl: "https://www.google.com/maps/d/embed?mid=1e_yDhsmn5FSNKCRPFyevWtRFhTDypUc&ehbc=2E312F", viewUrl: "https://www.google.com/maps/d/u/0/viewer?mid=1e_yDhsmn5FSNKCRPFyevWtRFhTDypUc&ll=-25.091205867525243%2C-50.161737049999985&z=13" },
+    ];
+
+    const attractionsCfg = {
+      icon:'🧭',
+      name:'Atrativos turísticos',
+      embedUrl:'https://www.google.com/maps/d/embed?mid=1_OsQinqE6Y58ZVOGUvIRc9Sr6g0A6HI&ehbc=2E312F',
+      viewUrl:'https://www.google.com/maps/d/u/0/viewer?mid=1_OsQinqE6Y58ZVOGUvIRc9Sr6g0A6HI&ll=-25.13989777293883%2C-50.10060204999999&z=9'
+    };
+
+    const mapList = document.getElementById('mapList');
+    const mapFrame = document.getElementById('mapFrame');
+    const openExternal = document.getElementById('openExternal');
+    const openExternalBottom = document.getElementById('openExternalBottom');
+    const currentLabel = document.getElementById('currentLabel');
+    const recenterBtn = document.getElementById('recenterBtn');
+    const shareBtn = document.getElementById('shareBtn');
+
+    const logoUrl = ""; // ex: "assets/img/logo.png"
+    const logoImg = document.getElementById('logo');
+    if (logoUrl) { logoImg.src = logoUrl; logoImg.classList.remove('hidden'); }
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function setActive(index, shouldScroll = true) {
+      const cfg = mapConfigs[index];
+      if (!cfg) return;
+      mapFrame.src = cfg.embedUrl;
+      openExternal.href = cfg.viewUrl;
+      openExternalBottom.href = cfg.viewUrl;
+      currentLabel.textContent = cfg.name;
+
+      Array.from(mapList.querySelectorAll('button[data-idx]')).forEach(b => b.classList.remove('active'));
+      const activeBtn = mapList.querySelector(`button[data-idx="${index}"]`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      location.hash = `#map=${encodeURIComponent(cfg.name)}`;
+
+      // rolar suavemente até o mapa apenas nas interações do usuário
+      if (shouldScroll) {
+        const wrap = document.getElementById('mapWrap');
+        if (wrap && 'scrollIntoView' in wrap) {
+          wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+
+    function renderList() {
+      mapList.innerHTML = '';
+      mapConfigs.forEach((cfg, i) => {
+        const b = document.createElement('button');
+        b.className = 'card w-full text-left';
+        b.setAttribute('data-idx', i);
+        b.innerHTML = `<div class="text-xl">${cfg.icon || '📍'}</div>
+                       <div class="flex-1">
+                         <div class="card-title">${cfg.name}</div>
+                         <div class="card-sub">Toque para abrir no mapa abaixo</div>
+                       </div>`;
+        b.addEventListener('click', () => setActive(i));
+        mapList.appendChild(b);
+      });
+    }
+
+    renderList();
+    const hashMap = decodeURIComponent((location.hash.split('map=')[1] || '').replace(/\+/g,' '));
+    const startIndex = Math.max(0, mapConfigs.findIndex(c => c.name.toLowerCase() === hashMap.toLowerCase()));
+    setActive(startIndex === -1 ? 0 : startIndex, false); // primeira carga: não rola
+
+    recenterBtn.addEventListener('click', () => {
+      const current = mapConfigs.find(c => c.name === currentLabel.textContent);
+      if (current) mapFrame.src = current.embedUrl;
+    });
+
+    shareBtn.addEventListener('click', async () => {
+      try {
+        const url = location.href;
+        if (navigator.share) {
+          await navigator.share({ title: document.title, text: 'Mapas do evento', url });
+        } else if (navigator.clipboard) {
+          await navigator.clipboard.writeText(url);
+          shareBtn.textContent = 'Link copiado!';
+          setTimeout(() => shareBtn.textContent = 'Compartilhar', 1200);
+        } else {
+          alert('Link: ' + url);
+        }
+      } catch (e) { console.warn(e); }
+    });
+
+    // Botão grande de Atrativos Turísticos (rola até o mapa)
+    const attrBtnLarge = document.getElementById('attrBtnLarge');
+    if (attrBtnLarge) {
+      attrBtnLarge.addEventListener('click', () => {
+        mapFrame.src = attractionsCfg.embedUrl;
+        openExternal.href = attractionsCfg.viewUrl;
+        openExternalBottom.href = attractionsCfg.viewUrl;
+        currentLabel.textContent = attractionsCfg.name;
+        location.hash = `#map=${encodeURIComponent(attractionsCfg.name)}`;
+        const wrap = document.getElementById('mapWrap');
+        if (wrap && 'scrollIntoView' in wrap) wrap.scrollIntoView({behavior:'smooth'});
+      });
+    }
+  </script>
+</body>
+</html>
